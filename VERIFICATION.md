@@ -1,8 +1,10 @@
 # Verification record
 
 **Toolkit version:** 1.0.0
+**Repository:** <https://github.com/saidrassai/docsforge>
 **Verified:** 2026-11-11
 **Host:** Ubuntu 26.04.1 LTS (Linux x86_64), Node.js 24.22.2
+**CI:** PASS on Ubuntu and Windows, Node 22 and 24
 
 ## Global installation
 

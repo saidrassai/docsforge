@@ -6,6 +6,7 @@ Install once. Document every repository. Keep engineering knowledge and
 customer help in sync with the code that actually ships.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f.svg)](LICENSE)
+[![CI](https://github.com/saidrassai/docsforge/actions/workflows/ci.yml/badge.svg)](https://github.com/saidrassai/docsforge/actions/workflows/ci.yml)
 [![Node.js](https://img.shields.io/badge/node-%E2%89%A522.22.0-339933.svg)](https://nodejs.org)
 [![OpenCode](https://img.shields.io/badge/OpenCode-2.x-111111.svg)](https://opencode.ai)
 [![Oh My Pi](https://img.shields.io/badge/Oh%20My%20Pi-18.x-6b46c1.svg)](https://github.com/can1357/oh-my-pi)
