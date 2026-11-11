@@ -1,0 +1,48 @@
+# OpenWiki read boundary.
+# Paths listed here are never read, scanned, or reproduced in generated docs.
+
+.git/
+node_modules/
+.venv/
+venv/
+__pycache__/
+dist/
+build/
+out/
+coverage/
+.next/
+.nuxt/
+.svelte-kit/
+.turbo/
+.cache/
+vendor/
+target/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+.ssh/
+
+# Customer and production data
+data/production/
+fixtures/private/
+uploads/private/
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+
+# Logs and artifacts
+*.log
+logs/
+tmp/
+.tmp/
+
+# DocsForge state (not engineering knowledge)
+.documentation/

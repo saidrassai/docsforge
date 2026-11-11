@@ -1,0 +1,44 @@
+# Bitbucket Pipelines documentation sync.
+#
+# Enable a scheduled pipeline in Repository settings → Pipelines → Schedules,
+# or run the custom pipeline manually. It updates only documentation paths and
+# opens no automatic merge.
+#
+# Required repository variables (secured):
+#   OPENROUTER_API_KEY
+#   DOCS_BITBUCKET_TOKEN  (repository write + pull-request create)
+# Optional:
+#   OPENWIKI_PROVIDER, OPENWIKI_MODEL_ID
+
+image: node:22
+
+pipelines:
+  custom:
+    docs-sync:
+      - step:
+          name: Update documentation
+          script:
+            - apt-get update && apt-get install -y git curl
+            - npm install --global openwiki@0.9.0 mermaid@11.16.0 jsdom@29.1.1
+            - git config user.name "Documentation Bot"
+            - git config user.email "docs-bot@example.com"
+            - export OPENWIKI_TELEMETRY_DISABLED=1
+            - export OPENWIKI_PROVIDER="${OPENWIKI_PROVIDER:-openrouter}"
+            - export OPENWIKI_MODEL_ID="${OPENWIKI_MODEL_ID:-z-ai/glm-5.2}"
+            - openwiki code --update --print
+            - |
+              if git diff --quiet -- openwiki {{USER_DOCS_DIR}} {{SCREENSHOTS_DIR}} AGENTS.md; then
+                echo "Documentation is already up to date."
+                exit 0
+              fi
+            - export DOCS_BRANCH="docs/automated-update-${BITBUCKET_BUILD_NUMBER}"
+            - git checkout -b "$DOCS_BRANCH"
+            - git add openwiki {{USER_DOCS_DIR}} {{SCREENSHOTS_DIR}} AGENTS.md
+            - git commit -m "docs: update documentation"
+            - git push origin "$DOCS_BRANCH"
+            - |
+              curl --fail --request POST \
+                --header "Authorization: Bearer ${DOCS_BITBUCKET_TOKEN}" \
+                --header "Content-Type: application/json" \
+                --data "{\"title\":\"docs: update documentation\",\"source\":{\"branch\":{\"name\":\"${DOCS_BRANCH}\"}},\"destination\":{\"branch\":{\"name\":\"${BITBUCKET_BRANCH}\"}},\"description\":\"Automated documentation update. Documentation-only. Never auto-merged.\"}" \
+                "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_FULL_NAME}/pullrequests"

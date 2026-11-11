@@ -1,0 +1,45 @@
+# Rendered by init-project.mjs. {{USER_DOCS_DIR}} and {{SCREENSHOTS_DIR}} are
+# replaced with the project's configured paths.
+#
+# Documentation sync for GitLab CI.
+#
+# Include this file from .gitlab-ci.yml, or copy its job. It runs on a schedule
+# or manually, updates only documentation paths, and opens a merge request.
+# It never auto-merges.
+
+openwiki_update:
+  image: node:22
+  stage: deploy
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+  before_script:
+    - apt-get update && apt-get install -y git curl
+    - npm install --global openwiki@0.9.0 mermaid@11.16.0 jsdom@29.1.1
+    - git config user.name "${GITLAB_USER_NAME:-Documentation Bot}"
+    - git config user.email "${GITLAB_USER_EMAIL:-docs-bot@example.com}"
+  script:
+    - openwiki code --update --print
+    - |
+      if git diff --quiet -- openwiki {{USER_DOCS_DIR}} {{SCREENSHOTS_DIR}} AGENTS.md; then
+        echo "Documentation is already up to date."
+        exit 0
+      fi
+    - export DOCS_BRANCH="docs/automated-update-${CI_PIPELINE_ID}"
+    - git checkout -b "$DOCS_BRANCH"
+    - git add openwiki {{USER_DOCS_DIR}} {{SCREENSHOTS_DIR}} AGENTS.md
+    - git commit -m "docs: update documentation"
+    - git push "https://oauth2:${DOCS_GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" "$DOCS_BRANCH"
+    - |
+      curl --fail --request POST \
+        --header "PRIVATE-TOKEN: ${DOCS_GITLAB_TOKEN}" \
+        --form "source_branch=${DOCS_BRANCH}" \
+        --form "target_branch=${CI_DEFAULT_BRANCH}" \
+        --form "title=docs: update documentation" \
+        --form "description=Automated documentation update. Documentation-only. Never auto-merged." \
+        "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests"
+  variables:
+    GIT_DEPTH: "0"
+    OPENWIKI_TELEMETRY_DISABLED: "1"
+    OPENWIKI_PROVIDER: openrouter
+    OPENWIKI_MODEL_ID: z-ai/glm-5.2

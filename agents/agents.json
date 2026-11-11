@@ -1,0 +1,78 @@
+{
+  "$schema": "./agents.schema.json",
+  "version": 1,
+  "agents": [
+    {
+      "id": "documentation-architect",
+      "description": "Plans and maintains source-grounded engineering documentation, OpenWiki knowledge, project documentation infrastructure, adapters, and documentation policy.",
+      "prompt": "prompts/documentation-architect.md",
+      "opencode": {
+        "mode": "subagent",
+        "permissions": [
+          { "action": "shell", "resource": "git push*", "effect": "deny" },
+          { "action": "shell", "resource": "git commit*", "effect": "deny" },
+          { "action": "shell", "resource": "gh pr create*", "effect": "deny" },
+          { "action": "shell", "resource": "glab mr create*", "effect": "deny" },
+          { "action": "shell", "resource": "npm publish*", "effect": "deny" },
+          { "action": "shell", "resource": "vercel*", "effect": "deny" },
+          { "action": "shell", "resource": "terraform apply*", "effect": "deny" },
+          { "action": "shell", "resource": "kubectl apply*", "effect": "deny" }
+        ]
+      },
+      "omp": {
+        "tools": "read, grep, glob, bash, write, edit, todo"
+      }
+    },
+    {
+      "id": "documentation-writer",
+      "description": "Writes and improves customer-facing Help Center guides with verified navigation labels, permissions, prerequisites, expected results, and real screenshots.",
+      "prompt": "prompts/documentation-writer.md",
+      "opencode": {
+        "mode": "subagent",
+        "permissions": [
+          { "action": "shell", "resource": "git push*", "effect": "deny" },
+          { "action": "shell", "resource": "git commit*", "effect": "deny" },
+          { "action": "shell", "resource": "gh pr create*", "effect": "deny" },
+          { "action": "shell", "resource": "vercel*", "effect": "deny" },
+          { "action": "shell", "resource": "npm publish*", "effect": "deny" }
+        ]
+      },
+      "omp": {
+        "tools": "read, grep, glob, bash, write, edit, todo"
+      }
+    },
+    {
+      "id": "documentation-auditor",
+      "description": "Independently audits engineering and customer documentation against code, runtime behavior, permissions, navigation, and screenshots. Reports evidence-based findings without rewriting.",
+      "prompt": "prompts/documentation-auditor.md",
+      "opencode": {
+        "mode": "subagent",
+        "permissions": [
+          { "action": "edit", "resource": "*", "effect": "deny" },
+          { "action": "shell", "resource": "git push*", "effect": "deny" },
+          { "action": "shell", "resource": "git commit*", "effect": "deny" }
+        ]
+      },
+      "omp": {
+        "tools": "read, grep, glob, bash"
+      }
+    },
+    {
+      "id": "screenshot-specialist",
+      "description": "Builds and runs deterministic Playwright screenshot workflows for documentation using synthetic data, safe authentication, and targeted regeneration.",
+      "prompt": "prompts/screenshot-specialist.md",
+      "opencode": {
+        "mode": "subagent",
+        "permissions": [
+          { "action": "shell", "resource": "git push*", "effect": "deny" },
+          { "action": "shell", "resource": "git commit*", "effect": "deny" },
+          { "action": "shell", "resource": "vercel*", "effect": "deny" },
+          { "action": "shell", "resource": "kubectl*", "effect": "deny" }
+        ]
+      },
+      "omp": {
+        "tools": "read, grep, glob, bash, write, edit, todo"
+      }
+    }
+  ]
+}

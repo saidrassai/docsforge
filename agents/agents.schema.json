@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://documentation-toolkit.local/schemas/agents.schema.json",
+  "title": "DocsForge agent definitions",
+  "type": "object",
+  "required": ["version", "agents"],
+  "properties": {
+    "version": { "const": 1 },
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "prompt"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+          "description": { "type": "string", "minLength": 10 },
+          "prompt": { "type": "string" },
+          "opencode": {
+            "type": "object",
+            "properties": {
+              "mode": { "enum": ["primary", "subagent", "all"] },
+              "permissions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["action", "resource", "effect"],
+                  "properties": {
+                    "action": { "type": "string" },
+                    "resource": { "type": "string" },
+                    "effect": { "enum": ["allow", "ask", "deny"] }
+                  }
+                }
+              }
+            }
+          },
+          "omp": {
+            "type": "object",
+            "properties": {
+              "tools": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

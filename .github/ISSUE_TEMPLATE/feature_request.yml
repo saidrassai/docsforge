@@ -1,0 +1,45 @@
+name: Feature request
+description: Suggest a capability, adapter, skill, command, or workflow
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the documentation problem first, then the proposed change.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What documentation workflow is difficult or unsafe today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Skill
+        - Agent
+        - Command
+        - Framework adapter
+        - OpenWiki integration
+        - Screenshot workflow
+        - Audit
+        - CI automation
+        - Windows compatibility
+        - Documentation
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context

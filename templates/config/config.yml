@@ -1,0 +1,46 @@
+version: 1
+
+project:
+  name: {{PROJECT_NAME}}
+  type: {{PROJECT_TYPE}}
+
+codebase:
+  enabled: true
+  engine: openwiki
+  output: openwiki/
+  instructions: openwiki/INSTRUCTIONS.md
+  ignore_file: .openwikiignore
+
+user_docs:
+  enabled: {{USER_DOCS_ENABLED}}
+  framework: {{USER_DOCS_FRAMEWORK}}
+  audience: {{USER_DOCS_AUDIENCE}}
+  content_directory: {{USER_DOCS_DIR}}
+  base_path: /docs
+
+screenshots:
+  enabled: {{SCREENSHOTS_ENABLED}}
+  engine: playwright
+  source: application
+  demo_data: synthetic
+  config: playwright.docs.config.ts
+  content_directory: docs/assets/screenshots
+  inventory: .documentation/screenshots/inventory.yml
+
+automation:
+  agent_completion_sync: true
+  daily_ci_sync: {{DAILY_CI_SYNC}}
+  automatic_merge: false
+  ci_provider: {{CI_PROVIDER}}
+  docs_only_paths:
+    - openwiki/
+    - {{USER_DOCS_DIR}}/
+    - docs/assets/screenshots/
+    - .documentation/
+    - AGENTS.md
+    - playwright.docs.config.ts
+
+security:
+  internal_docs_public: false
+  production_data_in_screenshots: false
+  secrets_in_docs: false

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "commands": [
+    {
+      "name": "docs-init",
+      "description": "Initialize project-specific documentation infrastructure in the current Git repository.",
+      "argumentHint": "[optional path or flags]",
+      "body": "bodies/docs-init.md"
+    },
+    {
+      "name": "docs-sync",
+      "description": "Update only documentation affected by current implementation changes.",
+      "argumentHint": "[base git ref or scope]",
+      "body": "bodies/docs-sync.md"
+    },
+    {
+      "name": "docs-audit",
+      "description": "Audit engineering, customer, and screenshot documentation for accuracy and completeness.",
+      "argumentHint": "[full|engineering|customer|screenshots]",
+      "body": "bodies/docs-audit.md"
+    },
+    {
+      "name": "docs-code",
+      "description": "Work only on the OpenWiki engineering knowledge base for the current repository.",
+      "argumentHint": "[focus area or page]",
+      "body": "bodies/docs-code.md"
+    },
+    {
+      "name": "docs-user",
+      "description": "Work only on customer-facing Help Center guides for the current repository.",
+      "argumentHint": "[feature, journey, or guide path]",
+      "body": "bodies/docs-user.md"
+    },
+    {
+      "name": "docs-screenshots",
+      "description": "Capture or regenerate real application screenshots for documentation.",
+      "argumentHint": "[workflow, route, or guide path]",
+      "body": "bodies/docs-screenshots.md"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "adapters": [
+    {
+      "id": "existing-docs",
+      "name": "Existing documentation framework",
+      "priority": 0,
+      "detect": ["mkdocs.yml", "docusaurus.config.*", "source.config.ts", "nextra.config.*", "astro.config.*", ".vitepress/config.*", "mint.json", ".gitbook.yaml"],
+      "contentRoots": ["docs", "documentation", "content/docs", "src/content/docs"]
+    },
+    {
+      "id": "nextjs-fumadocs",
+      "name": "Next.js + Fumadocs",
+      "priority": 10,
+      "detect": ["next", "fumadocs-core", "fumadocs-ui", "fumadocs-mdx"],
+      "contentRoots": ["content/docs"]
+    },
+    {
+      "id": "react",
+      "name": "React (Docusaurus / Nextra / Starlight / VitePress)",
+      "priority": 20,
+      "detect": ["react", "nextra", "@docusaurus/core", "@astrojs/starlight", "vitepress"],
+      "contentRoots": ["docs", "content", "src/content/docs"]
+    },
+    {
+      "id": "python-mkdocs",
+      "name": "Python + MkDocs Material",
+      "priority": 30,
+      "detect": ["pyproject.toml", "mkdocs.yml", "requirements.txt", "manage.py"],
+      "contentRoots": ["docs"]
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js API / CLI / library",
+      "priority": 40,
+      "detect": ["package.json", "bin", "fastify", "express", "hono"],
+      "contentRoots": ["docs"]
+    },
+    {
+      "id": "static-site",
+      "name": "Dedicated static documentation site",
+      "priority": 50,
+      "detect": [],
+      "contentRoots": ["docs"]
+    },
+    {
+      "id": "none",
+      "name": "No customer-facing UI",
+      "priority": 60,
+      "detect": [],
+      "contentRoots": []
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+name: Documentation Screenshots (optional)
+
+# This workflow is NOT enabled by /docs-init. Enable it only after the project
+# has a deterministic docs screenshot suite, a test user, and a way to start
+# the application in CI.
+#
+# Required repository secrets:
+#   DOCS_USER_EMAIL, DOCS_USER_PASSWORD (or your project's auth fixture)
+# Optional:
+#   DOCS_BASE_URL (defaults to the Playwright config's local URL)
+
+on:
+  workflow_dispatch:
+    inputs:
+      workflow:
+        description: "Route, guide, or workflow to capture"
+        required: false
+        default: "all"
+
+permissions:
+  contents: read
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Capture documentation screenshots
+        env:
+          DOCS_BASE_URL: ${{ vars.DOCS_BASE_URL }}
+          DOCS_USER_EMAIL: ${{ secrets.DOCS_USER_EMAIL }}
+          DOCS_USER_PASSWORD: ${{ secrets.DOCS_USER_PASSWORD }}
+        run: npx playwright test -c playwright.docs.config.ts
+
+      - name: Upload screenshot artifacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: documentation-screenshots
+          path: |
+            docs/assets/screenshots/
+            .documentation/screenshots/report/
+          if-no-files-found: ignore

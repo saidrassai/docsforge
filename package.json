@@ -1,0 +1,44 @@
+{
+  "name": "docsforge",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Universal documentation toolkit for OpenCode and Oh My Pi. Install once, document every repository.",
+  "license": "MIT",
+  "author": "saidrassai",
+  "homepage": "https://github.com/saidrassai/docsforge#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saidrassai/docsforge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/saidrassai/docsforge/issues"
+  },
+  "keywords": [
+    "documentation",
+    "docs-as-code",
+    "opencode",
+    "oh-my-pi",
+    "openwiki",
+    "playwright",
+    "ai-agents",
+    "developer-tools",
+    "help-center",
+    "fumadocs",
+    "mkdocs"
+  ],
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "install:hosts": "node scripts/docs-toolkit.mjs install --host all",
+    "sync": "node scripts/docs-toolkit.mjs sync --host all",
+    "status": "node scripts/docs-toolkit.mjs status",
+    "verify": "node scripts/docs-toolkit.mjs verify",
+    "verify:hosts": "node scripts/verify-hosts.mjs",
+    "self-test": "node scripts/self-test.mjs",
+    "check": "node scripts/check-syntax.mjs && node scripts/self-test.mjs",
+    "uninstall": "node scripts/docs-toolkit.mjs uninstall --host all",
+    "licenses": "node scripts/docs-toolkit.mjs licenses"
+  }
+}

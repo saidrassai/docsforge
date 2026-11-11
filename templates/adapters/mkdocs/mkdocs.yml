@@ -1,0 +1,27 @@
+site_name: {{SITE_NAME}}
+site_url: {{SITE_URL}}
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - content.code.copy
+    - search.suggest
+plugins:
+  - search
+nav:
+  - Home: index.md
+  - Getting started:
+      - getting-started/index.md
+  - Guides:
+      - guides/index.md
+  - Concepts:
+      - concepts/index.md
+  - Troubleshooting:
+      - troubleshooting/index.md
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true

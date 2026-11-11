@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://documentation-toolkit.local/schemas/config.schema.json",
+  "title": "DocsForge project configuration",
+  "type": "object",
+  "required": ["version"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "const": 1 },
+    "project": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "type": {
+          "type": "string",
+          "description": "Free-form product type, e.g. saas, api, cli, library, mobile, desktop, internal-tool."
+        },
+        "description": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "codebase": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "engine": { "const": "openwiki" },
+        "output": { "type": "string" },
+        "instructions": { "type": "string" },
+        "ignore_file": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "user_docs": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": ["boolean", "string"], "enum": [true, false, "auto"] },
+        "framework": {
+          "type": "string",
+          "description": "auto, existing, fumadocs, nextra, docusaurus, starlight, vitepress, mkdocs, mintlify, gitbook, static, none"
+        },
+        "audience": {
+          "type": ["string", "array"],
+          "items": { "type": "string" }
+        },
+        "content_directory": { "type": "string" },
+        "base_path": { "type": "string" },
+        "public_url": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "screenshots": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": ["boolean", "string"], "enum": [true, false, "auto"] },
+        "engine": { "const": "playwright" },
+        "source": { "const": "application" },
+        "demo_data": { "const": "synthetic" },
+        "config": { "type": "string" },
+        "content_directory": { "type": "string" },
+        "inventory": { "type": "string" },
+        "base_url": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "automation": {
+      "type": "object",
+      "properties": {
+        "agent_completion_sync": { "type": "boolean" },
+        "daily_ci_sync": { "type": "boolean" },
+        "automatic_merge": { "type": "boolean" },
+        "ci_provider": {
+          "type": "string",
+          "enum": ["auto", "github", "gitlab", "bitbucket", "none"]
+        },
+        "docs_only_paths": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "internal_docs_public": { "type": "boolean" },
+        "production_data_in_screenshots": { "type": "boolean" },
+        "secrets_in_docs": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

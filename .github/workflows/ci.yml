@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: ["22", "24"]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Check script syntax
+        run: node scripts/check-syntax.mjs
+
+      - name: Run isolated self-test
+        run: node scripts/self-test.mjs
+
+      - name: Print license review
+        run: node scripts/docs-toolkit.mjs licenses
+
+  docs:
+    name: Documentation checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+
+      - name: Check canonical skill frontmatter
+        run: |
+          node - <<'NODE'
+          const fs = require("fs");
+          const path = require("path");
+          let failed = 0;
+          for (const entry of fs.readdirSync("skills", { withFileTypes: true })) {
+            if (!entry.isDirectory()) continue;
+            const file = path.join("skills", entry.name, "SKILL.md");
+            const text = fs.readFileSync(file, "utf8");
+            const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+            if (!match) { console.error("Missing frontmatter:", file); failed++; continue; }
+            if (!match[1].includes(`name: ${entry.name}`)) {
+              console.error("Name mismatch:", file);
+              failed++;
+            }
+            if (!/^description:\s+\S/m.test(match[1])) {
+              console.error("Missing description:", file);
+              failed++;
+            }
+          }
+          process.exit(failed ? 1 : 0);
+          NODE
+
+      - name: Check JSON manifests
+        run: |
+          node - <<'NODE'
+          const fs = require("fs");
+          for (const file of ["agents/agents.json", "commands/commands.json", "adapters/manifest.json", "schemas/config.schema.json"]) {
+            JSON.parse(fs.readFileSync(file, "utf8"));
+            console.log("valid", file);
+          }
+          NODE
+
+      - name: Verify README links to existing files
+        run: |
+          node - <<'NODE'
+          const fs = require("fs");
+          const text = fs.readFileSync("README.md", "utf8");
+          const links = [...text.matchAll(/\]\(([^)]+)\)/g)].map((m) => m[1]);
+          let failed = 0;
+          for (const link of links) {
+            if (/^(https?:|mailto:|#)/.test(link)) continue;
+            const file = link.split("#")[0];
+            if (!fs.existsSync(file)) {
+              console.error("Missing:", link);
+              failed++;
+            }
+          }
+          process.exit(failed ? 1 : 0);
+          NODE

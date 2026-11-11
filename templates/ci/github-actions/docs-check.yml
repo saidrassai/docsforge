@@ -1,0 +1,61 @@
+# Rendered by init-project.mjs. {{USER_DOCS_DIR}} and {{SCREENSHOTS_DIR}} are
+# replaced with the project's configured paths.
+name: Documentation Check
+
+on:
+  pull_request:
+    paths:
+      - "openwiki/**"
+      - "{{USER_DOCS_DIR}}/**"
+      - "{{SCREENSHOTS_DIR}}/**"
+      - ".documentation/**"
+      - "AGENTS.md"
+      - "playwright.docs.config.ts"
+  push:
+    branches: [main, master]
+    paths:
+      - "openwiki/**"
+      - "{{USER_DOCS_DIR}}/**"
+      - "{{SCREENSHOTS_DIR}}/**"
+      - ".documentation/**"
+      - "AGENTS.md"
+  schedule:
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+
+      - name: Validate project configuration
+        run: node .documentation/toolkit/validate-config.mjs --root . --json
+
+      - name: Run deterministic documentation audit
+        run: |
+          node .documentation/toolkit/audit-project.mjs --root . --json \
+            > .documentation/audit/ci.json || true
+          cat .documentation/audit/ci.json
+
+      - name: Verify documented screenshot references
+        run: node .documentation/toolkit/audit-project.mjs --root . --domain screenshots
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: documentation-audit
+          path: .documentation/audit/
+          if-no-files-found: ignore

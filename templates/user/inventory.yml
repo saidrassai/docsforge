@@ -1,0 +1,7 @@
+# Screenshot inventory
+#
+# Every documented screenshot must have an entry. Regenerate only entries that
+# are affected by a UI change. Status: current | stale | missing.
+
+version: 1
+screenshots: []
