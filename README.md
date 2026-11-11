@@ -6,6 +6,7 @@ Install once. Document every repository. Keep engineering knowledge and
 customer help in sync with the code that actually ships.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f.svg)](LICENSE)
+[![Docs](https://img.shields.io/badge/docs-saidrassai.github.io%2Fdocsforge-4f46e5.svg)](https://saidrassai.github.io/docsforge/)
 [![CI](https://github.com/saidrassai/docsforge/actions/workflows/ci.yml/badge.svg)](https://github.com/saidrassai/docsforge/actions/workflows/ci.yml)
 [![Node.js](https://img.shields.io/badge/node-%E2%89%A522.22.0-339933.svg)](https://nodejs.org)
 [![OpenCode](https://img.shields.io/badge/OpenCode-2.x-111111.svg)](https://opencode.ai)
@@ -522,6 +523,32 @@ including what was not exercised.
 
 ---
 
+## Documentation site
+
+The project documentation is built with MkDocs Material and deployed to GitHub
+Pages:
+
+**<https://saidrassai.github.io/docsforge/>**
+
+Run it locally:
+
+```sh
+python -m venv .venv-docs
+. .venv-docs/bin/activate
+pip install -r requirements-docs.txt
+mkdocs serve
+```
+
+Build with strict link validation:
+
+```sh
+mkdocs build --strict
+```
+
+The source lives in `docs/`, with navigation in `mkdocs.yml`.
+
+---
+
 ## Development
 
 The repository is the source of truth. The installed copy lives at
@@ -553,6 +580,8 @@ scripts/      cross-platform Node automation + wrappers
 templates/    project, OpenWiki, codebase, user, Playwright, CI
 schemas/      config and frontmatter schemas
 examples/     worked examples
+docs/         DocsForge documentation site (MkDocs Material)
+mkdocs.yml    Docs site navigation and theme
 state/        install manifest (generated locally)
 backups/      host configuration backups (generated locally)
 ```

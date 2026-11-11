@@ -39,6 +39,8 @@
     "self-test": "node scripts/self-test.mjs",
     "check": "node scripts/check-syntax.mjs && node scripts/self-test.mjs",
     "uninstall": "node scripts/docs-toolkit.mjs uninstall --host all",
-    "licenses": "node scripts/docs-toolkit.mjs licenses"
+    "licenses": "node scripts/docs-toolkit.mjs licenses",
+    "docs:serve": "mkdocs serve",
+    "docs:build": "mkdocs build --strict"
   }
 }

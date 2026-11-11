@@ -10,6 +10,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Documentation site
+site/
+.venv-docs/
+
 # Environment and secrets
 .env
 .env.*

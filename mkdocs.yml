@@ -1,0 +1,111 @@
+site_name: DocsForge
+site_description: Universal documentation infrastructure for OpenCode and Oh My Pi.
+site_url: https://saidrassai.github.io/docsforge/
+site_author: DocsForge contributors
+
+repo_url: https://github.com/saidrassai/docsforge
+repo_name: saidrassai/docsforge
+edit_uri: edit/main/docs/
+
+copyright: Copyright &copy; 2026 DocsForge contributors
+
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+  font: false
+  language: en
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/saidrassai/docsforge
+      name: DocsForge on GitHub
+  generator: false
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - Installation: getting-started/installation.md
+      - Quick start: getting-started/quickstart.md
+  - Concepts:
+      - Two documentation domains: concepts/two-domains.md
+      - Architecture: concepts/architecture.md
+  - Guides:
+      - Commands: guides/commands.md
+      - Skills: guides/skills.md
+      - Agents: guides/agents.md
+      - Framework adapters: guides/adapters.md
+      - Screenshots: guides/screenshots.md
+      - CI automation: guides/automation.md
+  - Reference:
+      - Configuration: reference/configuration.md
+      - Scripts and flags: reference/scripts.md
+  - Operations:
+      - Verification: operations/verification.md
+      - Troubleshooting: operations/troubleshooting.md
+      - Uninstall and backups: operations/uninstall.md
+  - Security: security.md
+  - Contributing: contributing.md
+  - FAQ: faq.md
