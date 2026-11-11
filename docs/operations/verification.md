@@ -90,6 +90,15 @@ The initial release was verified on:
 | OpenWiki | 0.9.0 |
 | Playwright | 1.65 |
 
+## Docs site
+
+The project documentation is built with MkDocs Material and deployed to GitHub
+Pages:
+
+<https://saidrassai.github.io/docsforge/>
+
+`mkdocs build --strict` passes, and the deployed site responds with HTTP 200.
+
 ## Playwright verification
 
 The generated docs-only config captured a real 1440×900 PNG from a controlled

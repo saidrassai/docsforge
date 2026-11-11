@@ -104,6 +104,7 @@ All initialized fixtures passed `validate-config.mjs` and
 | Screenshot reference missing detected | PASS — HIGH finding |
 | Stale screenshot date detected | PASS — MEDIUM finding |
 | Playwright screenshot capture | PASS — generated docs-only config captured a real 1440×900 PNG from a local server |
+| Project docs site | PASS — MkDocs Material strict build; GitHub Pages HTTP 200 |
 | Secrets/native dependency review documented | PASS — `docs-toolkit licenses` |
 
 ## Partial or not exercised
